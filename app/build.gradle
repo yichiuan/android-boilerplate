@@ -1,0 +1,86 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.getkeepsafe.dexcount'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.yichiuan.boilerplate"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            minifyEnabled true
+            // Uses new built-in shrinker http://tools.android.com/tech-docs/new-build-system/built-in-shrinker
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // use debug key for test
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dexcount {
+    format = "yaml"
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile "com.android.support:appcompat-v7:${libs.supportVersion}"
+    compile "com.android.support:design:${libs.supportVersion}"
+
+    // ButterKnife
+    compile "com.jakewharton:butterknife:${libs.butterknife}"
+    apt "com.jakewharton:butterknife-compiler:${libs.butterknife}"
+
+    // Timber For Log
+    compile "com.jakewharton.timber:timber:${libs.timber}"
+
+    // LeakCanary
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${libs.leakcanary}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${libs.leakcanary}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${libs.leakcanary}"
+
+    // Stetho
+    debugCompile "com.facebook.stetho:stetho:${libs.stetho}"
+
+    // Dependencies for local unit tests
+    testCompile "junit:junit:${libs.junit}"
+    testCompile "org.mockito:mockito-core:${libs.mockito}"
+    testCompile "org.hamcrest:hamcrest-all:${libs.hamcrest}"
+
+    // Android Testing Support Library
+    androidTestCompile "com.android.support.test:runner:${libs.testrunner}"
+    androidTestCompile "com.android.support.test:rules:${libs.testrunner}"
+    androidTestCompile("com.android.support.test.espresso:espresso-core:${libs.espresso}", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestCompile ("com.android.support.test.espresso:espresso-contrib:${libs.espresso}") {
+        exclude module: 'recyclerview-v7'
+        exclude module: 'design'
+        exclude module: 'support-v4'
+    }
+    /*
+       Resolves dependency versions across test and production APKs, specifically, transitive
+       dependencies. This is required since Espresso internally has a dependency on support-annotations.
+       https://sites.google.com/a/android.com/tools/tech-docs/new-build-system/user-guide#TOC-Resolving-conflicts-between-main-and-test-APK
+    */
+    androidTestCompile "com.android.support:support-annotations:${libs.supportVersion}"
+}
