@@ -1,15 +1,13 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.yichiuan.boilerplate"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -41,46 +39,41 @@ dexcount {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile "com.android.support:appcompat-v7:${libs.supportVersion}"
-    compile "com.android.support:design:${libs.supportVersion}"
+    implementation "com.android.support:appcompat-v7:${libs.supportVersion}"
+    implementation "com.android.support:design:${libs.supportVersion}"
 
     // ButterKnife
-    compile "com.jakewharton:butterknife:${libs.butterknife}"
-    apt "com.jakewharton:butterknife-compiler:${libs.butterknife}"
+    implementation "com.jakewharton:butterknife:${libs.butterknife}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${libs.butterknife}"
 
     // Timber For Log
-    compile "com.jakewharton.timber:timber:${libs.timber}"
+    implementation "com.jakewharton.timber:timber:${libs.timber}"
 
     // LeakCanary
-    debugCompile "com.squareup.leakcanary:leakcanary-android:${libs.leakcanary}"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${libs.leakcanary}"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${libs.leakcanary}"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${libs.leakcanary}"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${libs.leakcanary}"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${libs.leakcanary}"
 
     // Stetho
-    debugCompile "com.facebook.stetho:stetho:${libs.stetho}"
+    debugImplementation "com.facebook.stetho:stetho:${libs.stetho}"
 
     // Dependencies for local unit tests
-    testCompile "junit:junit:${libs.junit}"
-    testCompile "org.mockito:mockito-core:${libs.mockito}"
-    testCompile "org.hamcrest:hamcrest-all:${libs.hamcrest}"
+    testImplementation "junit:junit:${libs.junit}"
+    testImplementation "org.hamcrest:hamcrest-all:${libs.hamcrest}"
+    testImplementation "org.mockito:mockito-core:${libs.mockito}"
+    androidTestImplementation "org.mockito:mockito-android:${libs.mockito}"
 
     // Android Testing Support Library
-    androidTestCompile "com.android.support.test:runner:${libs.testrunner}"
-    androidTestCompile "com.android.support.test:rules:${libs.testrunner}"
-    androidTestCompile("com.android.support.test.espresso:espresso-core:${libs.espresso}", {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    androidTestCompile ("com.android.support.test.espresso:espresso-contrib:${libs.espresso}") {
-        exclude module: 'recyclerview-v7'
-        exclude module: 'design'
-        exclude module: 'support-v4'
-    }
+    androidTestImplementation "com.android.support.test:runner:${libs.testrunner}"
+    androidTestImplementation "com.android.support.test:rules:${libs.testrunner}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:${libs.espresso}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:${libs.espresso}"
     /*
        Resolves dependency versions across test and production APKs, specifically, transitive
        dependencies. This is required since Espresso internally has a dependency on support-annotations.
        https://sites.google.com/a/android.com/tools/tech-docs/new-build-system/user-guide#TOC-Resolving-conflicts-between-main-and-test-APK
     */
-    androidTestCompile "com.android.support:support-annotations:${libs.supportVersion}"
+    androidTestImplementation "com.android.support:support-annotations:${libs.supportVersion}"
 }
