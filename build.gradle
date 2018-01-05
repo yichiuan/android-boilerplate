@@ -23,6 +23,11 @@ ext {
             supportVersion   : "27.0.2",
             butterknife      : "8.8.1",
 
+            // for RxJava
+            rxandroid        : "2.0.1",
+            rxjava           : "2.1.8",
+            rxbinding        : '2.0.0',
+
             // for debug
             timber           : "4.6.0",
             leakcanary       : "1.5.4",

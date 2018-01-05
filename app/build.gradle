@@ -48,6 +48,11 @@ dependencies {
     implementation "com.jakewharton:butterknife:${libs.butterknife}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${libs.butterknife}"
 
+    // RxJava
+    implementation "io.reactivex.rxjava2:rxandroid:${libs.rxandroid}"
+    implementation "io.reactivex.rxjava2:rxjava:${libs.rxjava}"
+    implementation "com.jakewharton.rxbinding2:rxbinding:${libs.rxbinding}"
+
     // Timber For Log
     implementation "com.jakewharton.timber:timber:${libs.timber}"
 
