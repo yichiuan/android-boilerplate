@@ -5,12 +5,18 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import com.squareup.leakcanary.LeakCanary;
+import com.yichiuan.boilerplate.injection.component.AppComponent;
+import com.yichiuan.boilerplate.injection.component.DaggerAppComponent;
+import com.yichiuan.boilerplate.injection.module.AppModule;
+import com.yichiuan.boilerplate.injection.module.DataModule;
 import com.yichiuan.boilerplate.util.StethoHelper;
 
 import timber.log.Timber;
 
 
 public class BoilerplateApp extends Application {
+
+    private AppComponent appComponent;
 
     @Override
     public void onCreate() {
@@ -49,6 +55,15 @@ public class BoilerplateApp extends Application {
         if (BuildConfig.DEBUG) {
             StethoHelper.init(this);
         }
+
+        appComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .dataModule(new DataModule())
+                .build();
+    }
+
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
 
     private static class FakeCrashReportTree extends Timber.Tree {
